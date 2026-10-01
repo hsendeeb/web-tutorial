@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Basics - Student Tutorial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .code-block { background-color: #1e1e1e; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block code { color: #d4d4d4; font-family: 'Fira Code', monospace; }
+        .code-keyword { color: #569cd6; }
+        .code-tag { color: #4ec9b0; }
+        .code-string { color: #ce9178; }
+        .code-comment { color: #6a9955; }
+        .diagram-node { border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .diagram-node:hover { transform: translateY(-5px); }
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #667eea; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #5568d3; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+        body { min-width: 320px; overflow-x: hidden; }
+        pre { white-space: pre; }
+        .tree-diagram { width: 100%; max-width: 34rem; }
+        .diagram-node { min-width: 0; }
+        img, video, iframe { max-width: 100%; }
+        @media (max-width: 640px) {
+            section.py-20 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+            section#home { padding-top: 7rem; padding-bottom: 4rem; }
+            section .p-8 { padding: 1.25rem; }
+            section .gap-12 { gap: 2rem; }
+            section .mb-16 { margin-bottom: 2.5rem; }
+            section h1 { font-size: clamp(2rem, 9vw, 2.5rem); line-height: 1.15; }
+            section h2 { line-height: 1.2; }
+            section h2.text-3xl { font-size: clamp(1.65rem, 7vw, 1.9rem); }
+            section .flex.items-center.justify-center.gap-4 { flex-wrap: wrap; gap: .75rem; }
+            section .grid.grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .diagram-node { width: 100%; max-width: 18rem; }
+            .tree-diagram .grid.grid-cols-3 { grid-template-columns: 1fr; }
+            #quiz-form h3 { font-size: 1rem; line-height: 1.4; }
+            #quiz-form label { align-items: flex-start; line-height: 1.4; }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <nav class="navbar fixed top-0 w-full z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-gray-800">Web Dev Basics</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-purple-600 transition duration-300">Home</a>
+                <a href="#fundamentals" class="text-gray-700 hover:text-purple-600 transition duration-300">Fundamentals</a>
+                <a href="#html" class="text-gray-700 hover:text-purple-600 transition duration-300">HTML</a>
+                <a href="#css" class="text-gray-700 hover:text-purple-600 transition duration-300">CSS</a>
+                <a href="#javascript" class="text-gray-700 hover:text-purple-600 transition duration-300">JavaScript</a>
+                <a href="#classification" class="text-gray-700 hover:text-purple-600 transition duration-300">Website Types</a>
+                <a href="#quiz" class="text-gray-700 hover:text-purple-600 transition duration-300">Quiz</a>
+            </div>
+            <button id="menu-btn" class="md:hidden text-gray-700"><i class="fas fa-bars text-xl"></i></button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="flex flex-col space-y-2 p-4">
+                <a href="#home" class="text-gray-700 py-2 hover:text-purple-600 transition">Home</a>
+                <a href="#fundamentals" class="text-gray-700 py-2 hover:text-purple-600 transition">Fundamentals</a>
+                <a href="#html" class="text-gray-700 py-2 hover:text-purple-600 transition">HTML</a>
+                <a href="#css" class="text-gray-700 py-2 hover:text-purple-600 transition">CSS</a>
+                <a href="#javascript" class="text-gray-700 py-2 hover:text-purple-600 transition">JavaScript</a>
+                <a href="#classification" class="text-gray-700 py-2 hover:text-purple-600 transition">Website Types</a>
+                <a href="#quiz" class="text-gray-700 py-2 hover:text-purple-600 transition">Quiz</a>
+            </div>
+        </div>
+        </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white pt-32 pb-20">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 fade-in-up">Learn Web Development Fundamentals</h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90 fade-in-up" style="animation-delay: 0.2s">A friendly guide for students starting their coding journey</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 fade-in-up" style="animation-delay: 0.4s">
+                <a href="#fundamentals" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg">Start Learning</a>
+                <a href="#quiz" class="border-2 border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition duration-300">Take Quiz</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is a Website Section -->
+    <section id="fundamentals" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">What is a Website?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">A website is a collection of interconnected web pages accessed through the internet. Think of it as a digital house with rooms (pages) connected by doors (links).</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-8 mb-12">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">📚 The Three Pillars of Web Development</h3>
+                <div class="grid md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fab fa-html5 text-red-500 text-2xl"></i></div>
+                        <h4 class="font-bold text-lg mb-2">HTML</h4>
+                        <p class="text-gray-600 text-sm">Structure and Content</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fab fa-css3-alt text-blue-500 text-2xl"></i></div>
+                        <h4 class="font-bold text-lg mb-2">CSS</h4>
+                        <p class="text-gray-600 text-sm">Design and Styling</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fab fa-js-square text-yellow-400 text-2xl"></i></div>
+                        <h4 class="font-bold text-lg mb-2">JavaScript</h4>
+                        <p class="text-gray-600 text-sm">Interactivity and Behavior</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Website Anatomy Diagram -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <h3 class="text-xl font-semibold mb-6 text-center text-gray-800">🌐 How a Website Works</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="diagram-node bg-purple-50 border-2 border-purple-200">
+                        <div class="text-2xl mb-2">👤</div><h4 class="font-bold">User</h4><p class="text-sm text-gray-600">Types URL or clicks link</p>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="diagram-node bg-blue-50 border-2 border-blue-200">
+                        <div class="text-2xl mb-2">🌐</div><h4 class="font-bold">Browser</h4><p class="text-sm text-gray-600">Sends request to server</p>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="diagram-node bg-green-50 border-2 border-green-200">
+                        <div class="text-2xl mb-2">💻</div><h4 class="font-bold">Server</h4><p class="text-sm text-gray-600">Sends back files</p>
+                    </div>
+                                        <div class="text-2xl text-gray-400">→</div>
+                    <div class="diagram-node bg-orange-50 border-2 border-orange-200">
+                        <div class="text-2xl mb-2">🎨</div><h4 class="font-bold">Display</h4><p class="text-sm text-gray-600">Renders the page</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HTML Section -->
+    <section id="html" class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <i class="fab fa-html5 text-red-500 text-4xl"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">HTML - The Structure</h2>
+                </div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">HTML (HyperText Markup Language) is the backbone of any website. It defines the structure and content of web pages using "elements" like headings, paragraphs, and links.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">🧱 What HTML Does</h3>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-red-100 p-2 rounded-lg"><i class="fas fa-cube text-red-600"></i></span>
+                            <span><strong>Creates Structure:</strong> Defines headings, paragraphs, lists, and sections</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-red-100 p-2 rounded-lg"><i class="fas fa-link text-red-600"></i></span>
+                            <span><strong>Adds Content:</strong> Places text, images, videos, and other media</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-red-100 p-2 rounded-lg"><i class="fas fa-route text-red-600"></i></span>
+                            <span><strong>Links Pages:</strong> Connects web pages together with hyperlinks</span>
+                        </li>
+                    </ul>
+                    <div class="code-block">
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome!&lt;/h1&gt;
+    &lt;p&gt;Hello, world!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <h3 class="text-xl font-semibold mb-4">📋 Common HTML Elements</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;h1&gt;&lt;/h1&gt;</code><p class="text-xs text-gray-500 mt-1">Headings</p></div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;p&gt;&lt;/p&gt;</code><p class="text-xs text-gray-500 mt-1">Paragraph</p></div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;a&gt;&lt;/a&gt;</code><p class="text-xs text-gray-500 mt-1">Link</p></div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;img&gt;</code><p class="text-xs text-gray-500 mt-1">Image</p></div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;ul&gt;&lt;/ul&gt;</code><p class="text-xs text-gray-500 mt-1">List</p></div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center"><code>&lt;div&gt;&lt;/div&gt;</code><p class="text-xs text-gray-500 mt-1">Container</p></div>
+                    </div>
+                                        <div class="mt-6 bg-purple-50 p-4 rounded-lg">
+                        <p class="text-sm"><strong>💡 Remember:</strong> HTML is like the skeleton of your body - it gives structure but no style!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CSS Section -->
+    <section id="css" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <i class="fab fa-css3-alt text-blue-500 text-4xl"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">CSS - The Appearance</h2>
+                </div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">CSS (Cascading Style Sheets) controls how HTML elements look. It's responsible for colors, fonts, spacing, layout, and making your website visually appealing.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <h3 class="text-xl font-semibold mb-4">🎨 What CSS Does</h3>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 p-2 rounded-lg"><i class="fas fa-palette text-blue-600"></i></span>
+                            <span><strong>Colors & Fonts:</strong> Sets text colors, background colors, and typography</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 p-2 rounded-lg"><i class="fas fa-arrows-alt text-blue-600"></i></span>
+                            <span><strong>Layout:</strong> Controls spacing, positioning, and page structure</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 p-2 rounded-lg"><i class="fas fa-mobile-alt text-blue-600"></i></span>
+                            <span><strong>Responsive:</strong> Makes sites work on mobile, tablet, and desktop</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-blue-100 p-2 rounded-lg"><i class="fas fa-magic text-blue-600"></i></span>
+                            <span><strong>Animations:</strong> Adds transitions and visual effects</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">📐 CSS Example</h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-comment">/* Style all headings */</span>
+h1 {
+    <span class="code-string">color: purple;</span>
+    <span class="code-string">text-align: center;</span>
+}
+
+<span class="code-comment">/* Style a specific class */</span>
+.container {
+    <span class="code-string">width: 80%;</span>
+    <span class="code-string">margin: auto;</span>
+    <span class="code-string">padding: 20px;</span>
+}</code></pre>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-3">📊 CSS Selectors</h4>
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-gray-100 p-3 rounded-lg"><code>.class</code><p class="text-xs text-gray-500">Class selector</p></div>
+                            <div class="bg-gray-100 p-3 rounded-lg"><code>#id</code><p class="text-xs text-gray-500">ID selector</p></div>
+                            <div class="bg-gray-100 p-3 rounded-lg"><code>element</code><p class="text-xs text-gray-500">Element selector</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript Section -->
+    <section id="javascript" class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <i class="fab fa-js-square text-yellow-400 text-4xl"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">JavaScript - The Brains</h2>
+                </div>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">JavaScript is a programming language that enables interactive web pages. It allows you to update content, control multimedia, animate images, and much more - essentially making websites dynamic.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">⚡ What JavaScript Does</h3>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-yellow-100 p-2 rounded-lg"><i class="fas fa-bolt text-yellow-600"></i></span>
+                            <span><strong>Interactivity:</strong> Responds to clicks, keyboard input, and mouse movements</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-yellow-100 p-2 rounded-lg"><i class="fas fa-sync-alt text-yellow-600"></i></span>
+                            <span><strong>Dynamic Content:</strong> Updates page content without reloading</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-yellow-100 p-2 rounded-lg"><i class="fas fa-cog text-yellow-600"></i></span>
+                            <span><strong>Logic:</strong> Performs calculations and decision-making</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-yellow-100 p-2 rounded-lg"><i class="fas fa-cloud text-yellow-600"></i></span>
+                            <span><strong>API Calls:</strong> Fetches data from servers (weather, news, etc.)</span>
+                        </li>
+                    </ul>
+                    <div class="code-block">
+                        <pre><code><span class="code-comment">// Change text when button is clicked</span>
+document.querySelector(<span class="code-string">"button"</span>).addEventListener(<span class="code-string">"click"</span>, function() {
+    document.querySelector(<span class="code-string">"h1"</span>).innerHTML = <span class="code-string">"Hello, JavaScript!"</span>;
+});
+
+<span class="code-comment">// Simple calculation</span>
+let price = <span class="code-string">20</span>;
+let tax = <span class="code-string">0.08</span>;
+let total = price * (<span class="code-string">1</span> + tax);</code></pre>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <h3 class="text-xl font-semibold mb-4">📦 JavaScript at a Glance</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg"><h4 class="font-bold flex items-center gap-2"><i class="fas fa-cube"></i> Variables</h4><p class="text-sm text-gray-600 mt-1">Store data like numbers, text, and booleans</p></div>
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg"><h4 class="font-bold flex items-center gap-2"><i class="fas fa-cogs"></i> Functions</h4><p class="text-sm text-gray-600 mt-1">Reusable blocks of code that perform specific tasks</p></div>
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg"><h4 class="font-bold flex items-center gap-2"><i class="fas fa-project-diagram"></i> Events</h4><p class="text-sm text-gray-600 mt-1">Detect user actions like clicks, scrolls, and key presses</p></div>
+                        <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg"><h4 class="font-bold flex items-center gap-2"><i class="fas fa-layer-group"></i> DOM</h4><p class="text-sm text-gray-600 mt-1">Select and modify HTML elements dynamically</p></div>
+                    </div>
+                                    <div class="mt-6 bg-yellow-50 p-4 rounded-lg"><p class="text-sm"><strong>💡 Remember:</strong> JavaScript is like the nervous system - it makes your website think and react!</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How They Work Together -->
+    <section class="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">How Everything Works Together</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto">Think of building a website like building a house. Each technology has a specific role:</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🥩</div>
+                    <h3 class="text-xl font-bold mb-3">HTML = Skeleton</h3>
+                    <p class="opacity-90">HTML provides the basic structure and content, just like bones give your body its shape.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-bold mb-3">CSS = Skin & Clothes</h3>
+                    <p class="opacity-90">CSS makes it look good with colors, fonts, and layouts - like skin, hair, and stylish outfits.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">JS = Brain & Nerves</h3>
+                    <p class="opacity-90">JavaScript adds intelligence and interactivity - like your brain and nervous system responding to stimuli.</p>
+                </div>
+            </div>
+            <div class="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-8">
+                <div class="text-center">
+                    <p class="mb-4">🌐 Browser reads HTML → Applies CSS styling → Executes JavaScript behavior</p>
+                    <div class="flex justify-center items-center space-x-4 flex-wrap">
+                        <span class="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold">HTML</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold">CSS</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg font-semibold">JavaScript</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold">Live Website</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Website Classification Section -->
+    <section id="classification" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Types of Websites</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Websites come in various forms, each serving different purposes. Here's how they're commonly classified:</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-file-alt text-blue-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Static</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Pre-built pages with fixed content. Fast and secure, but requires technical knowledge to update.</p>
+                                        <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: Portfolio site</p></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-sync-alt text-green-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Dynamic</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Content changes based on user actions or data. Uses databases and server-side scripting.</p>
+                    <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: Social media platform</p></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-shopping-cart text-purple-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">E-commerce</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Online stores that allow buying and selling products. Include product catalogs and shopping carts.</p>
+                                        <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: Amazon, Shopify stores</p></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-blog text-orange-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Blog/CMS</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Content Management Systems for publishing articles and managing content without coding.</p>
+                    <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: WordPress, Medium</p></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-mobile-alt text-pink-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">SPA</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Single Page Applications load once and update content dynamically. Fast user experience but SEO can be challenging.</p>
+                    <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: Gmail, Netflix</p></div>
+                </div>
+
+                <div class="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-lg">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-bullseye text-teal-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Landing Page</h3>
+                    </div>
+                    <p class="text-gray-600 mb-3">Focused single-page marketing tools designed to convert visitors into customers with clear calls-to-action.</p>
+                    <div class="bg-white p-3 rounded-lg"><p class="text-xs font-mono">Example: Product launch pages</p></div>
+                </div>
+            </div>
+
+            <!-- Website Structure Diagram -->
+            <div class="mt-16 bg-gray-50 rounded-2xl shadow-xl p-8">
+                <h3 class="text-xl font-semibold mb-6 text-center text-gray-800">📁 Website File Structure</h3>
+                <div class="flex justify-center">
+                    <div class="tree-diagram">
+                        <div class="bg-purple-500 text-white p-4 rounded-lg mb-4 text-center font-bold">
+                            Website Root (index.html)
+                        </div>
+                        <div class="flex justify-center mt-2">
+                            <div class="border-l-2 border-dashed border-gray-300 pl-8">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="bg-blue-100 p-3 rounded-lg text-center">
+                                        <div class="font-bold">CSS</div>
+                                        <p class="text-xs">style.css</p>
+                                    </div>
+                                    <div class="bg-yellow-100 p-3 rounded-lg text-center">
+                                        <div class="font-bold">JS</div>
+                                        <p class="text-xs">script.js</p>
+                                    </div>
+                                                        <div class="bg-green-100 p-3 rounded-lg text-center">
+                                        <div class="font-bold">Images</div>
+                                        <p class="text-xs">/assets/</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">🧠 Quick Knowledge Check</h2>
+                <p class="text-lg text-gray-600">Test your understanding of web development basics:</p>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-8">
+                <form id="quiz-form" class="space-y-6">
+                    <div class="quiz-question">
+                        <h3 class="text-lg font-semibold mb-3">1. Which language creates the structure of a webpage?</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q1" value="a" class="mr-3"> HTML</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q1" value="b" class="mr-3"> CSS</label>
+                                                        <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q1" value="c" class="mr-3"> JavaScript</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3 class="text-lg font-semibold mb-3">2. Which language controls colors and styling?</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q2" value="a" class="mr-3"> HTML</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q2" value="b" class="mr-3"> CSS</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q2" value="c" class="mr-3"> JavaScript</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3 class="text-lg font-semibold mb-3">3. Which language adds interactivity to a website?</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q3" value="a" class="mr-3"> HTML</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q3" value="b" class="mr-3"> CSS</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q3" value="c" class="mr-3"> JavaScript</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h3 class="text-lg font-semibold mb-3">4. What does HTML stand for?</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q4" value="a" class="mr-3"> Hyper Text Markup Language</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q4" value="b" class="mr-3"> High Text Markdown Language</label>
+                            <label class="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-gray-100"><input type="radio" name="q4" value="c" class="mr-3"> Hyperlinking Text Model Language</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
+                        Check Answers
+                    </button>
+                </form>
+
+                                <div id="quiz-result" class="mt-6 p-6 rounded-lg hidden">
+                    <h3 class="text-xl font-bold mb-3">Results:</h3>
+                    <p id="quiz-score" class="text-lg"></p>
+                    <p id="quiz-feedback" class="mt-2"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">📚 Learning Resources</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Continue your web development journey with these excellent resources:</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-3xl mb-4 text-center">📖</div>
+                    <h3 class="text-xl font-bold mb-3 text-center">MDN Web Docs</h3>
+                    <p class="text-gray-600 mb-3">The most comprehensive resource for HTML, CSS, and JavaScript documentation.</p>
+                    <a href="https://developer.mozilla.org" target="_blank" class="text-purple-600 hover:text-purple-800 font-semibold">Visit MDN →</a>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-3xl mb-4 text-center">💻</div>
+                    <h3 class="text-xl font-bold mb-3 text-center">freeCodeCamp</h3>
+                    <p class="text-gray-600 mb-3">Interactive coding challenges and projects for beginners.</p>
+                    <a href="https://freecodecamp.org" target="_blank" class="text-purple-600 hover:text-purple-800 font-semibold">Start Coding →</a>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="text-3xl mb-4 text-center">🎮</div>
+                    <h3 class="text-xl font-bold mb-3 text-center">CodePen</h3>
+                    <p class="text-gray-600 mb-3">Create and showcase front-end projects in your browser.</p>
+                    <a href="https://codepen.io" target="_blank" class="text-purple-600 hover:text-purple-800 font-semibold">Try It →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-12">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-4">Web Dev Basics</h3>
+            <p class="opacity-80 mb-6">A student-friendly tutorial on web development fundamentals</p>
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="#" class="text-white hover:text-gray-200 transition"><i class="fab fa-github text-xl"></i></a>
+                <a href="#" class="text-white hover:text-gray-200 transition"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="#" class="text-white hover:text-gray-200 transition"><i class="fas fa-envelope text-xl"></i></a>
+            </div>
+            <p class="text-sm opacity-60">Made with ❤️ for students learning to code</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Quiz functionality
+        document.getElementById('quiz-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const answers = { q1: 'a', q2: 'b', q3: 'c', q4: 'a' };
+            let score = 0;
+            const total = Object.keys(answers).length;
+            Object.keys(answers).forEach(question => {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) { score++; }
+            });
+            const resultDiv = document.getElementById('quiz-result');
+            const scoreText = document.getElementById('quiz-score');
+            const feedbackText = document.getElementById('quiz-feedback');
+            scoreText.textContent = `You scored ${score} out of ${total}!`;
+            if (score === total) {
+                feedbackText.textContent = 'Perfect! You know your web dev basics! 🎉';
+                resultDiv.className = 'mt-6 p-6 rounded-lg bg-green-50 border border-green-200';
+            } else if (score >= total / 2) {
+                feedbackText.textContent = 'Good job! Review the sections you missed above. 💪';
+                resultDiv.className = 'mt-6 p-6 rounded-lg bg-yellow-50 border border-yellow-200';
+            } else {
+                feedbackText.textContent = 'Keep studying! The fundamentals section has everything you need. 📚';
+                resultDiv.className = 'mt-6 p-6 rounded-lg bg-red-50 border border-red-200';
+            }
+            resultDiv.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
